@@ -1,7 +1,45 @@
-// ListMovies.js
+<template>
+  <div>
+    <table class="table table-striped">
+      <tr>
+        <th>#</th>
+        <th>Nom</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+      <tr></tr>
 
-APP.component('list-movies', {
-  template: '#template-list-movies',
+      <movie-item
+        v-for="(movie, indexMovie) in movies"
+        :key="movie.id"
+        :id="movie.id"
+        :editing="movie.editing"
+        :title="movie.title"
+        :description="movie.description"
+        @deleteMovie="deleteMovie(indexMovie)"
+        @editMovie="editMovie(movie)"
+        @stopEditMovie="stopEdit(movie, indexMovie)"
+        @updateMovie="updateMovie($event, indexMovie)"
+      ></movie-item>
+    </table>
+
+    <p class="lead">
+      <span>{{ movieCount }}</span>
+      <br />
+      <button @click="createMovie()" class="btn btn-primary">
+        Ajouter un nouveau film
+      </button>
+    </p>
+  </div>
+</template>
+
+<script>
+import MovieItem from './MovieItem.vue';
+import moviesService from '../services/moviesService';
+
+export default {
+  components: { MovieItem },
+
   data() {
     return {
       movies: moviesService.loadMovies(),
@@ -53,4 +91,7 @@ APP.component('list-movies', {
       //Vue.set(this.movies, index, newMovie);
     },
   },
-});
+};
+</script>
+
+<style scoped></style>
