@@ -6,6 +6,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "netlify-plugin-csp-generator": "^1.4.0",
     "vue": "^3.0.5",
     "vue-router": "^4.0.9"
   },
