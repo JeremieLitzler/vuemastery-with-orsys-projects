@@ -9,7 +9,7 @@
       </tr>
       <tr></tr>
 
-      <movie-item
+      <movie
         v-for="(movie, indexMovie) in movies"
         :key="movie.id"
         :id="movie.id"
@@ -20,12 +20,12 @@
         @editMovie="editMovie(movie)"
         @stopEditMovie="stopEdit(movie, indexMovie)"
         @updateMovie="updateMovie($event, indexMovie)"
-      ></movie-item>
+      ></movie>
     </table>
 
     <p class="lead">
-      <span>{{ movieCount }}</span>
-      <br />
+      <span>{{ lengthMovies }}</span>
+
       <button @click="createMovie()" class="btn btn-primary">
         Ajouter un nouveau film
       </button>
@@ -34,32 +34,22 @@
 </template>
 
 <script>
-import MovieItem from './MovieItem.vue';
-import moviesService from '../services/moviesService';
+import moviesService from "../services/moviesService";
+import Movie from "./Movie.vue";
 
 export default {
-  components: { MovieItem },
-
+  components: { Movie },
   data() {
     return {
       movies: moviesService.loadMovies(),
       movie: {},
     };
   },
-  computed: {
-    movieCount() {
-      const count = this.movies.length;
-
-      return count > 0
-        ? `Il y a ${count} film${count > 1 ? 's' : ''}`
-        : 'Aucun film pour le moment';
-    },
-  },
   methods: {
     createMovie: function () {
       var newMovie = {
-        title: '',
-        description: '',
+        title: "",
+        description: "",
         note: 0,
         editing: true,
         isNew: true,
@@ -83,15 +73,27 @@ export default {
       newMovie.editing = false;
 
       this.movies[index] = newMovie;
-
-      // INUTILE DEPUIS VUE 3 !!
       // La ligne ci-dessous ne fonctionne pas en VueJS ! (Cf chapitre 9.Comprendre le binding)
       //this.movies[index] = newMovie;
       // On préférera cette écriture pour enclencher le réaffichage
       //Vue.set(this.movies, index, newMovie);
     },
   },
+  computed: {
+    lengthMovies: function () {
+      const nb = +this.movies.length;
+
+      if (nb === 1) {
+        return "Il n'y a qu'un seul film";
+      } else if (nb > 1) {
+        return `Il y a ${nb} films au total`;
+      } else {
+        return "Aucun film pour le moment";
+      }
+    },
+  },
 };
 </script>
 
-<style scoped></style>
+<style>
+</style>

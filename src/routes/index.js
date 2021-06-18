@@ -1,14 +1,7 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import MovieList from '../components/MovieList.vue';
-import Login from '../components/Login.vue';
+import { createRouter, createWebHistory } from "vue-router";
+import APP_ROUTES from "./app.routes";
 
-const routes = [
-  { path: '/home', component: MovieList, name: 'movie-list' },
-  { path: '/', component: Login, name: 'login' },
-];
-const router = createRouter({
+export default createRouter({
   history: createWebHistory(),
-  routes,
+  routes: APP_ROUTES,
 });
-
-export default router;
